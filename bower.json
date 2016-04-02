@@ -1,0 +1,22 @@
+{
+  "name": "polymer-course",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.2.0",
+    "paper-card": "PolymerElements/paper-card#~1.1.1",
+    "paper-button": "PolymerElements/paper-button#~1.0.11",
+    "paper-input": "PolymerElements/paper-input#~1.1.10"
+  }
+}
