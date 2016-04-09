@@ -1,21 +1,51 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 
 <dom-module id="contact-card">
   <template>
 
      <style>
-     .cards {
-      width: 60%;
-      margin: 20px 20%; 
-     }
-      img {
-        border-radius: 100%;
-        border: 5px solid gray;
+      :host {
+        width: 200px;
       }
+      :host([favorite]) .cards{
+        background: orange;
+        transform: scale(1);
+      }
+      :host([favorite]) iron-icon {
+        display: block;
+      }
+     iron-icon {
+      display: none;
+      left: 0;
+      position: absolute;
+      top: 0;
+      fill: orange;
+     }
+
+     .cards {
+      float: left;
+      margin: 5px;
+      transform: scale(0.8);
+      transition: transform 1s ease;
+     }
       .card-content {
         text-align: center;
+        padding: 0;
+        max-width: 125px;
+        overflow: hidden;
+      }
+
+      .card-content p {
+        margin: 0;
+      }
+
+      img {
+        width: 100%;
+        max-height: 120px;
+        max-width: 125px;
       }
 
       paper-button {
@@ -23,13 +53,14 @@
       }
     </style>
 
-    <paper-card class="cards" heading="{{user.name.first}} {{user.name.last}}">
+    <paper-card class="cards">
       <div class="card-content">
         <img src="{{user.picture.large}}">
-        <p>{{user.email}}</p>
+        <iron-icon icon="star"></iron-icon>
+        <p>{{user.name.first}}</p>
       </div>
       <div class="card-actions">
-        <paper-button>{{user.email}}</paper-button>
+        <paper-button on-tap="_markAsFavorite">Fav</paper-button>
       </div>
     </paper-card>
 
@@ -38,7 +69,18 @@
     Polymer({
       is: 'contact-card',
       properties: {
-        user: Object
+        user: {
+          type: Object,
+          value: 'Unknown'
+        },
+        favorite: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }        
+      },
+      _markAsFavorite: function(){
+        this.toggleAttribute('favorite');
       }
     })
   </script>

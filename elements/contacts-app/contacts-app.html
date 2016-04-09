@@ -1,26 +1,53 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../contact-card/contact-card.html">
+<link rel="import" href="../contact-item/contact-item.html">
 
 <dom-module id="contacts-app">
   <template>
+    <style>
+    paper-button { 
+      width: 100%;
+      display: inline-block;
+    }
+    </style>
     <iron-ajax
       auto
       url="https://randomuser.me/api/?results={{cardsNumber}}"
       last-response="{{data}}"
       handle-as="json">
     </iron-ajax>
-    <paper-input label="Numero de cartas" type="number" value="{{cardsNumber}}"></paper-input>
-    <template is="dom-repeat" items="[[data.results]]">
-      <contact-card user="{{item.user}}"></contact-card>
+    <paper-button on-tap="_changeView">Cambiar vista</paper-button>
+    <!--<paper-input label="Numero de cartas" type="number" value="{{cardsNumber}}"></paper-input>-->
+    <template is="dom-if" if="{{view}}">
+      <template is="dom-repeat" items="[[data.results]]">
+        <contact-card user="{{item}}"></contact-card>
+      </template>
+    </template>
+    <template is="dom-if" if="{{!view}}">
+      <template is="dom-repeat" items="[[data.results]]">
+        <contact-item user="{{item}}"></contact-item>
+      </template>
     </template>
   </template>
   <script>
     Polymer({
       is: 'contacts-app',
       properties: {
-        cardsNumber: Number
+        cardsNumber: {
+          type: Number,
+          value: 10
+        },
+        view: {
+          type: Boolean,
+          value: false
+        }
+      },
+      _changeView: function() {
+        this.toggleAttribute('view');
       }
     })
   </script>
