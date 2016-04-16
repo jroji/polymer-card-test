@@ -16,7 +16,8 @@
     }
 
     paper-input {
-      width: 250px;
+      padding: 10px;
+      width: calc(100% - 30px);
     }
 
     paper-header-panel {
@@ -46,6 +47,16 @@
       float: left;
       width: 20%;
     }
+
+    @media (max-width: 768px) {
+      .secondary-view {
+        display: none;
+      }
+      .main-view {
+        width: 100%;
+      }
+    }
+
     </style>
     <iron-ajax
       auto
@@ -87,10 +98,19 @@
           type: Array
         }
       },
+      listeners: {
+        'remove-card': '_removeCard'
+      },
       observers: [
         '_updateFilter(users.*)',
         '_updateSearchFilter(searchText)'
       ],
+      _removeCard: function(ev, param) {
+        var index = this.users.results.indexOf(param.user);    
+        this.users.results.splice(index,1);    
+        this.$.mainView.render();
+        this.$.asideView.render();
+      },
       _isSearched: function(user) { 
         if (user.name.first.indexOf(this.searchText) === -1 ){ 
           return false;

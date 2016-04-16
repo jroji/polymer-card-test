@@ -20,7 +20,7 @@
     "paper-input": "PolymerElements/paper-input#~1.1.10",
     "iron-icon": "PolymerElements/iron-icon#~1.0.8",
     "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.7",
-    "paper-header-panel": "PolymerElements/paper-header-panel#~1.1.5"
+    "paper-header-panel": "PolymerElements/paper-header-panel#~1.1.5",
   },
   "devDependencies": {
     "iron-icons": "PolymerElements/iron-icons#~1.1.3",
