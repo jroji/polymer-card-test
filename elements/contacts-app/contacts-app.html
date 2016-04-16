@@ -1,8 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../contact-card/contact-card.html">
 <link rel="import" href="../contact-item/contact-item.html">
 
@@ -13,6 +14,38 @@
       width: 100%;
       display: inline-block;
     }
+
+    paper-input {
+      width: 250px;
+    }
+
+    paper-header-panel {
+      background: #4468AF;
+      color: white;
+    }
+
+    .header-title {
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .container {
+      margin: 5px 20px;
+    }
+
+    .toggle-views {
+      float: right;
+    }
+
+    .main-view {
+      float: left;
+      width: 80%;
+    }
+
+    .secondary-view {
+      float: left;
+      width: 20%;
+    }
     </style>
     <iron-ajax
       auto
@@ -20,18 +53,24 @@
       last-response="{{users}}"
       handle-as="json">
     </iron-ajax>
-    <paper-button on-tap="_changeView">Cambiar vista</paper-button>
-    <!--<paper-input label="Numero de cartas" type="number" value="{{cardsNumber}}"></paper-input>-->
-    <template is="dom-if" if="{{view}}">
-      <template is="dom-repeat" items="{{users.results}}">
-        <contact-card user="{{item}}"></contact-card>
-      </template>
-    </template>
-    <template is="dom-if" if="{{!view}}">
-      <template is="dom-repeat" items="{{users.results}}">
-        <contact-item user="{{item}}"></contact-item>
-      </template>
-    </template>
+    <paper-header-panel mode="waterfall">
+      <paper-toolbar>
+        <h3 class="header-title"> S|ngular Polymer contacts </h3>
+      <paper-toolbar>
+    </paper-header-panel>
+    <section class="container">
+        <section class="main-view">
+          <paper-input label="Search" type="text" value="{{searchText}}"></paper-input>
+          <template id="mainView" is="dom-repeat" items="{{users.results}}" filter="_isSearched">
+            <contact-card user="{{item}}"></contact-card>
+          </template>
+        </section>
+        <aside class="secondary-view">
+          <template id="asideView" is="dom-repeat" items="{{users.results}}" filter="_isFavorite">
+            <contact-item user="{{item}}"></contact-item>
+          </template>
+        </aside>
+    </section>
   </template>
   <script>
     Polymer({
@@ -41,16 +80,36 @@
           type: Number,
           value: 10
         },
-        view: {
-          type: Boolean,
-          value: false
-        },
         users: {
+          type: Array
+        },
+        searchText: {
           type: Array
         }
       },
-      _changeView: function() {
-        this.toggleAttribute('view');
+      observers: [
+        '_updateFilter(users.*)',
+        '_updateSearchFilter(searchText)'
+      ],
+      _isSearched: function(user) { 
+        if (user.name.first.indexOf(this.searchText) === -1 ){ 
+          return false;
+        } else {
+          return user;
+        }
+      },
+      _isFavorite: function(user) { 
+        if (!user.favorite){ 
+          return false;
+        } else {
+          return user;
+        }
+      },
+      _updateFilter: function() {
+        this.$.asideView.render();
+      },
+      _updateSearchFilter: function() {
+        this.$.mainView.render();
       }
     })
   </script>
