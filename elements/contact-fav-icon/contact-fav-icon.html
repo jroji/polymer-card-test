@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../favorite-behaviour/favorite-behaviour.html">
 
 <dom-module id="contact-fav-icon">
   <template>
@@ -12,23 +13,20 @@
         fill: orange;
       };
     </style>
-    <iron-icon icon="star"></iron-icon>
+    <iron-icon icon="star" ></iron-icon>
   </template>
   <script>
     Polymer({
       is: 'contact-fav-icon',
+      behaviors: [Polymer.FavoriteBehaviour],
       properties: {
-        favorite: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true
+        user: {
+          type: Object
         }
-      },
+      }
+      ,
       listeners: {
-        'tap': '_tapped'
-      },
-      _tapped: function() {
-        this.toggleAttribute('favorite');
+        'tap': 'markAsFavorite'
       }
     })
   </script>

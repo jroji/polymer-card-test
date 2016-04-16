@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../favorite-behaviour/favorite-behaviour.html">
 
 <dom-module id="contact-card">
   <template>
@@ -60,7 +61,7 @@
         <p>{{user.name.first}}</p>
       </div>
       <div class="card-actions">
-        <paper-button on-tap="_markAsFavorite">Fav</paper-button>
+        <paper-button on-tap="markAsFavorite">Fav</paper-button>
       </div>
     </paper-card>
 
@@ -68,19 +69,11 @@
   <script>
     Polymer({
       is: 'contact-card',
+      behaviors: [Polymer.FavoriteBehaviour],
       properties: {
         user: {
-          type: Object,
-          value: 'Unknown'
-        },
-        favorite: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true
-        }        
-      },
-      _markAsFavorite: function(){
-        this.toggleAttribute('favorite');
+          type: Object
+        }
       }
     })
   </script>

@@ -17,18 +17,18 @@
     <iron-ajax
       auto
       url="https://randomuser.me/api/?results={{cardsNumber}}"
-      last-response="{{data}}"
+      last-response="{{users}}"
       handle-as="json">
     </iron-ajax>
     <paper-button on-tap="_changeView">Cambiar vista</paper-button>
     <!--<paper-input label="Numero de cartas" type="number" value="{{cardsNumber}}"></paper-input>-->
     <template is="dom-if" if="{{view}}">
-      <template is="dom-repeat" items="[[data.results]]">
+      <template is="dom-repeat" items="{{users.results}}">
         <contact-card user="{{item}}"></contact-card>
       </template>
     </template>
     <template is="dom-if" if="{{!view}}">
-      <template is="dom-repeat" items="[[data.results]]">
+      <template is="dom-repeat" items="{{users.results}}">
         <contact-item user="{{item}}"></contact-item>
       </template>
     </template>
@@ -44,6 +44,9 @@
         view: {
           type: Boolean,
           value: false
+        },
+        users: {
+          type: Array
         }
       },
       _changeView: function() {

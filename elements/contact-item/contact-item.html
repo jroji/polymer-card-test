@@ -5,7 +5,7 @@
 <dom-module id="contact-item">
   <template>
   <style>
-    paper-card{
+    paper-card {
       width: 100%;
       padding: 10px;
     }
@@ -15,15 +15,18 @@
       margin: 0 10px;
     }
 
+    .contact-name {
+      display: inline;
+    }
+
   </style>
     <paper-card>
       <div>
         <img src="{{user.picture.thumbnail}}">
       </div>
-      <div>{{user.name.first}}</div>
-      {{user.favorite}}
-    </paper-item>
-    <contact-fav-icon></contact-fav-icon>
+      <div class="contact-name">{{user.name.first}}</div>
+      <contact-fav-icon user="{{user}}"></contact-fav-icon>
+    </paper-card>
   </template>
 
   <script>
@@ -31,8 +34,7 @@
       is: 'contact-item',
       properties: {
         user: {
-          type: Object,
-          value: 'Unknown'
+          type: Object
         }
       }
     })
